@@ -1,0 +1,26 @@
+import socket
+import os
+
+HOST1 = 'localhost'
+PORT1 = 1025
+HOST2 = 'localhost'
+PORT2 = 1025
+
+s_udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+mensaje_enviado = str
+mensaje_recibido = str
+
+desconectar = False
+while not desconectar:
+    if mensaje_enviado == "adios" or mensaje_recibido == "adios":
+        s_udp.sendto(mensaje_enviado, (HOST1, PORT1))
+        desconectar = True
+    else:
+        mensaje_enviado = raw_input("Escribe un mensaje al servidor: ")
+        s_udp.sendto(mensaje_enviado, (HOST1, PORT1))
+        print("Me quedo a la espera del mensaje del servidor...")
+        mensaje_recibido = s_udp.recvfrom(1024)
+        print("He recibido este mensaje del servidor: " + str(mensaje_recibido))
+
+s_udp.close()
